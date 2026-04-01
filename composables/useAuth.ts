@@ -18,7 +18,7 @@ interface AuthUser {
 
 interface AuthResponse {
   access_token: string;
-  user: AuthUser;
+  usuario: AuthUser;
 }
 
 interface LoginResponse {
@@ -29,60 +29,65 @@ export const useAuth = () => {
   const runtimeConfig = useRuntimeConfig();
   const user = useState<AuthUser | null>('user', () => null); // ✅ Inicializado en null
 
-  const fetchWithCredentials = async <T>(url: string, options: any = {}): Promise<T> => {
-    return $fetch<T>(url, {
-      ...options,
-      credentials: 'include',
-    });
-  };
-
-  const register = async (credentials: UserCredentials): Promise<AuthResponse> => {
-    const response = await fetchWithCredentials<AuthResponse>(`${runtimeConfig.public.apiBaseUrl}/auth/register`, {
-      method: 'POST',
-      body: credentials,
-    });
-
-    if (!response) {
-      throw new Error('Error en el servidor');
+  const fetchWithAuth = async <T>(url: string, options: any = {}): Promise<T> => {
+    // Solo accedemos a localStorage en el lado del cliente
+    let token = '';
+    if (import.meta.client) {
+      token = localStorage.getItem('access_token') || '';
     }
 
-    // ✅ No establecer user aquí porque el registro ahora crea usuarios PENDING
-    // El login posterior establecerá el user
-    return response;
+    const headers = options.headers || {};
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`;
+    }
+
+    return $fetch<T>(url, {
+      ...options,
+      headers,
+    });
   };
 
   const login = async (credentials: UserCredentials): Promise<AuthUser> => {
-    const response = await fetchWithCredentials<LoginResponse>(`${runtimeConfig.public.apiBaseUrl}/auth/login`, {
+    const response = await fetchWithAuth<AuthResponse>(`${runtimeConfig.public.apiBaseUrl || 'http://localhost:3001/api'}/auth/login`, {
       method: 'POST',
       body: credentials,
     });
 
-    if (!response || !response.user) {
-      throw new Error('Error en el servidor o usuario no retornado');
+    if (!response || !response.access_token) {
+      throw new Error('Error en el servidor o token no retornado');
+    }
+
+    // Guardamos el token
+    if (import.meta.client) {
+      localStorage.setItem('access_token', response.access_token);
     }
 
     // ✅ Obtener perfil completo después del login
+
     await profile();
-    return response.user;
+    return response.usuario;
   };
 
   const logout = async () => {
     try {
-      await fetchWithCredentials(`${runtimeConfig.public.apiBaseUrl}/auth/logout`, {
-        method: 'POST',
-      });
       user.value = null;
+      if (import.meta.client) {
+        localStorage.removeItem('access_token');
+      }
       await navigateTo('/login');
     } catch (error) {
       console.error('Error al cerrar sesión:', error);
       user.value = null;
+      if (import.meta.client) {
+        localStorage.removeItem('access_token');
+      }
       await navigateTo('/login');
     }
   };
 
   const profile = async () => {
     try {
-      const profileData = await fetchWithCredentials<AuthUser>(`${runtimeConfig.public.apiBaseUrl}/auth/profile`);
+      const profileData = await fetchWithAuth<AuthUser>(`${runtimeConfig.public.apiBaseUrl || 'http://localhost:3001'}/auth/me`);
 
       // ✅ Validar que el objeto tenga la estructura correcta
       if (profileData && profileData.id && profileData.rol) {
@@ -103,7 +108,6 @@ export const useAuth = () => {
 
   return {
     user,
-    register,
     login,
     logout,
     profile

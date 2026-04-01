@@ -204,12 +204,9 @@
                   Recordarme
                 </span>
               </label>
-              <NuxtLink
-                to="/register"
-                class="text-orange-400 hover:text-orange-300 font-semibold hover:underline transition-all duration-300 text-sm"
-              >
-                ¿Necesitas una cuenta?
-              </NuxtLink>
+              <div class="text-orange-400/0 text-sm">
+                <!-- Espacio reservado intencionalmente para mantener el layout -->
+              </div>
             </div>
 
             <!-- Botón Submit -->
@@ -292,6 +289,7 @@ const showPassword = ref(false);
 const error = ref('');
 const isLoading = ref(false);
 const router = useRouter();
+const auth = useAuth();
 
 const errors = ref<{ email: string; password: string }>({
   email: '',
@@ -324,13 +322,7 @@ async function login() {
   isLoading.value = true;
 
   try {
-    await $fetch('http://localhost:3001/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email: email.value, password: password.value }),
-      credentials: 'include',
-    });
-
+    await auth.login({ email: email.value, password: password.value });
     router.push('/dashboard');
   } catch (err: any) {
     console.error('Error de autenticación:', err);
@@ -347,7 +339,7 @@ async function login() {
         ? errorData.message.join(', ')
         : errorData.message;
     } else {
-      error.value = 'No se pudo conectar con el servidor de GasField. Verifica tu conexión e intenta de nuevo.';
+      error.value = err.message || 'No se pudo conectar con el servidor de GasField. Verifica tu conexión e intenta de nuevo.';
     }
   } finally {
     isLoading.value = false;
