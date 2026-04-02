@@ -8,9 +8,18 @@ export interface LocalEntity {
 }
 
 export interface ClienteLocal extends LocalEntity {
-    nombre: string;
-    identificacion: string;
-    municipio_id: string;
+    nombres: string;
+    apellidos: string;
+    documento_identidad: string;
+    tipo_documento: string;
+    telefono: string;
+    direccion: string;
+    latitud: number | null;
+    longitud: number | null;
+    is_analfabeto: boolean;
+    estado: string; // "PROSPECTO", "CLIENTE", "INACTIVO"
+    barrio_vereda_id: string | null;
+    impulsador_id: string | null;
 }
 
 // ... puedes añadir Medidores y Lecturas aquí
@@ -23,8 +32,8 @@ export class ProtoGasDB extends Dexie {
 
     constructor() {
         super('ProtoGasDB');
-        this.version(1).stores({
-            clientes: 'id, identificacion, is_synced',
+        this.version(2).stores({
+            clientes: 'id, documento_identidad, is_synced',
             biometrias: 'id, cliente_id, is_synced',
             medidores: 'id, cliente_id, is_synced',
             lecturas: 'id, medidor_id, is_synced'

@@ -3,7 +3,7 @@ export default defineNuxtRouteMiddleware(async (to, from) => {
   const { user, profile } = useAuth();
 
   // Rutas públicas que NO requieren autenticación
-  const publicRoutes = ['/login', '/register', '/', '/nosotros'];
+  const publicRoutes = ['/login', '/', '/funcionalidades'];
   const isPublicRoute = publicRoutes.some(route => to.path === route || to.path.startsWith('/invitaciones/aceptar'));
 
   // Si es ruta pública, permitir acceso
