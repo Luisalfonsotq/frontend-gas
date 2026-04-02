@@ -110,6 +110,7 @@ export const useAuth = () => {
     user,
     login,
     logout,
-    profile
+    profile,
+    fetchWithAuth
   };
 };

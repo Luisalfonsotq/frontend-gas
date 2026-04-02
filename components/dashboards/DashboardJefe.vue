@@ -127,6 +127,7 @@ const jefeActions = [
   { label: 'Ver Prospectos', desc: 'Clientes registrados en zona', path: '/clientes', icon: 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z', iconBg: 'bg-blue-50', iconColor: 'text-blue-600' },
   { label: 'Lecturas de Medidores', desc: 'Revisión de consumos', path: '/lecturas', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10', iconBg: 'bg-orange-50', iconColor: 'text-orange-600' },
   { label: 'Facturas Pendientes', desc: 'PENDIENTE / VENCIDO', path: '/facturas', icon: 'M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z', iconBg: 'bg-red-50', iconColor: 'text-red-600' },
+  { label: 'Gestionar Equipo', desc: 'IMPULSADOR · LECTOR', path: '/usuarios', icon: 'M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197', iconBg: 'bg-indigo-50', iconColor: 'text-indigo-600' },
   { label: 'Mapa de Zona', desc: 'Clientes geolocalizados', path: '/mapa', icon: 'M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7', iconBg: 'bg-teal-50', iconColor: 'text-teal-600' },
 ];
 
