@@ -8,7 +8,7 @@
         <!-- Logo con animación -->
         <div
           class="inline-block bg-white/95 backdrop-blur-sm rounded-3xl shadow-2xl p-6 md:p-8 mb-6 transform hover:scale-105 transition-all duration-300">
-          <img src="../assets/img/HERDIX.svg" alt="HERDIX Logo" class="w-48 md:w-64 lg:w-80 h-auto mx-auto">
+          <span class="text-4xl md:text-5xl font-extrabold text-green-700 tracking-tight">GasField</span>
         </div>
 
         <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4">
@@ -81,7 +81,7 @@
             <div class="text-6xl mb-4 group-hover:scale-110 transition-transform duration-300">🤝</div>
             <h3 class="text-2xl font-bold mb-3 text-green-900">Compromiso</h3>
             <p class="text-gray-700 leading-relaxed">
-              Estamos dedicados al éxito de cada ganadero que confía en HERDIX para gestionar su finca.
+              Estamos dedicados al éxito de cada ganadero que confía en GasField para gestionar su finca.
             </p>
           </div>
 
@@ -98,11 +98,11 @@
       </div>
     </section>
 
-    <!-- Por Qué HERDIX -->
+    <!-- Por Qué GasField -->
     <section class="py-16 px-4 bg-gray-50">
       <div class="max-w-6xl mx-auto">
         <div class="text-center mb-12">
-          <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">¿Por Qué Elegir HERDIX?</h2>
+          <h2 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">¿Por Qué Elegir GasField?</h2>
           <div class="w-24 h-1 bg-green-600 mx-auto mb-6"></div>
         </div>
 
@@ -278,7 +278,7 @@
             </div>
             <div class="text-yellow-500 text-2xl mb-3">★★★★★</div>
             <p class="text-gray-700 italic">
-              "HERDIX transformó mi finca. Ahora tengo control total de cada animal y he reducido costos en un 30%."
+              "GasField transformó mi finca. Ahora tengo control total de cada animal y he reducido costos en un 30%."
             </p>
           </div>
 
@@ -314,7 +314,7 @@
             </div>
             <div class="text-yellow-500 text-2xl mb-3">★★★★★</div>
             <p class="text-gray-700 italic">
-              "Como veterinario, HERDIX me facilita el seguimiento de todos mis pacientes. ¡Excelente herramienta!"
+              "Como veterinario, GasField me facilita el seguimiento de todos mis pacientes. ¡Excelente herramienta!"
             </p>
           </div>
         </div>
@@ -337,7 +337,7 @@
           ¡Únete a la Revolución Ganadera!
         </h2>
         <p class="text-xl md:text-2xl text-green-100 mb-8 max-w-3xl mx-auto">
-          Moderniza tu finca, aumenta tu rentabilidad y lleva tu negocio ganadero al siguiente nivel con HERDIX
+          Moderniza tu finca, aumenta tu rentabilidad y lleva tu negocio ganadero al siguiente nivel con GasField
         </p>
 
         <div class="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
@@ -404,7 +404,7 @@
         </div>
         
         <div class="border-t border-gray-700 mt-8 pt-8 text-center text-gray-400">
-          <p>© 2024 HERDIX - Desarrollado por equipo SENA. Todos los derechos reservados.</p>
+          <p>© 2024 GasField - Desarrollado por equipo SENA. Todos los derechos reservados.</p>
         </div>
       </div>
     </section> -->
