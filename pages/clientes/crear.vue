@@ -32,8 +32,12 @@
               <select v-model="form.tipo_documento" required class="w-full rounded-xl border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-4 py-2 border bg-white">
                 <option value="CC">Cédula de Ciudadanía</option>
                 <option value="CE">Cédula de Extranjería</option>
-                <option value="NIT">NIT</option>
+                <option value="PPT">Permiso por Protección Temporal (PPT)</option>
               </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">ID Barrio/Vereda (UUID) *</label>
+              <input v-model="form.barrio_vereda_id" type="text" required class="w-full rounded-xl border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-4 py-2 border" placeholder="Ej. 123e4567-e89b-12d3..."/>
             </div>
             <div>
               <label class="block text-sm font-medium text-slate-700 mb-1">Número de Documento *</label>
@@ -156,7 +160,7 @@ const form = reactive({
   latitud: null as number | null,
   longitud: null as number | null,
   is_analfabeto: false,
-  barrio_vereda_id: null as string | null
+  barrio_vereda_id: '' as string
 });
 
 // Biometric base64 variables
@@ -208,6 +212,11 @@ const guardarProspecto = async () => {
     return;
   }
 
+  if (!form.barrio_vereda_id || form.barrio_vereda_id.length < 36) {
+    alert("Debe ingresar un UUID válido para el Barrio/Vereda.");
+    return;
+  }
+
   try {
     guardando.value = true;
     
@@ -229,6 +238,7 @@ const guardarProspecto = async () => {
       barrio_vereda_id: form.barrio_vereda_id,
       impulsador_id: user.value?.id || null, // from useAuth
       is_synced: 0,
+      local_id: newClienteId,
       created_at_manual: new Date().toISOString()
     };
 
@@ -240,6 +250,7 @@ const guardarProspecto = async () => {
         if (rostroBase64.value) {
           await db.biometrias.add({
             id: uuidv4(),
+            local_id: uuidv4(),
             cliente_id: newClienteId,
             tipo: 'ROSTRO',
             file_base64: rostroBase64.value, // We'll store directly to Base64 since it's offline
@@ -250,6 +261,7 @@ const guardarProspecto = async () => {
         if (huellaBase64.value) {
           await db.biometrias.add({
             id: uuidv4(),
+            local_id: uuidv4(),
             cliente_id: newClienteId,
             tipo: 'HUELLA', // or FIRMA
             file_base64: huellaBase64.value,

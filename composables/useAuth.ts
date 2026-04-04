@@ -10,7 +10,7 @@ interface UserCredentials {
 }
 
 interface AuthUser {
-  id: number;      // ✅ Ahora consistente con backend
+  id: string;      // ✅ Consistente con backend (UUID)
   nombre: string;
   email: string;
   rol: string;

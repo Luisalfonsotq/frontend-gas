@@ -32,12 +32,19 @@ export const useSyncStore = defineStore('sync', {
           return;
         }
 
+        // Limpiamos los campos locales que el backend no espera en los DTOs (ej. is_synced, estado)
+        // ya que el backend usa class-validator (forbidNonWhitelisted: true) y las rechazaría.
+        const cleanClientes = pendingClientes.map(({ is_synced, estado, ...rest }) => rest);
+        const cleanBiometrias = pendingBiometrias.map(({ is_synced, ...rest }) => rest);
+        const cleanMedidores = pendingMedidores.map(({ is_synced, ...rest }) => rest);
+        const cleanLecturas = pendingLecturas.map(({ is_synced, ...rest }) => rest);
+
         // Construimos el payload de sincronización masiva
         const syncPayload = {
-          clientes: pendingClientes,
-          biometrias: pendingBiometrias,
-          medidores: pendingMedidores,
-          lecturas: pendingLecturas,
+          clientes: cleanClientes,
+          biometrias: cleanBiometrias,
+          medidores: cleanMedidores,
+          lecturas: cleanLecturas,
         };
 
         // 3. Enviar datos al backend (Sincronización masiva)
