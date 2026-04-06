@@ -278,6 +278,7 @@
 
 <script setup lang="ts">
 import { ref, watch } from 'vue';
+import { useGeography } from '@/composables/useGeography';
 import { useRouter } from 'vue-router';
 
 definePageMeta({ layout: 'public' });
@@ -290,6 +291,7 @@ const error = ref('');
 const isLoading = ref(false);
 const router = useRouter();
 const auth = useAuth();
+const { precargarGeografiaCompleta } = useGeography();
 
 const errors = ref<{ email: string; password: string }>({
   email: '',
@@ -323,6 +325,8 @@ async function login() {
 
   try {
     await auth.login({ email: email.value, password: password.value });
+    // Precargamos la geografía en segundo plano para disponibilidad offline
+    precargarGeografiaCompleta().catch(() => {});
     router.push('/dashboard');
   } catch (err: any) {
     console.error('Error de autenticación:', err);

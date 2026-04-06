@@ -80,6 +80,12 @@ export const roleSidebarConfig = {
         { name: 'Pendientes y mora',      path: '/facturas/mora',   key: 'facturas-mora' },
       ],
     },
+    {
+      name: 'Zonas y Barrios', icon: 'i-heroicons-map-pin',         path: '/geografia', key: 'geografia',
+      subItems: [
+        { name: 'Mis Barrios / Veredas',      path: '/geografia/barrios',   key: 'barrios' },
+      ],
+    },
     { name: 'Mapa',         icon: 'i-heroicons-map',                    path: '/mapa',      key: 'mapa' },
     { name: 'Sincronización', icon: 'i-heroicons-arrow-path',           path: '/sync',      key: 'sync' },
     { name: 'Reportes',     icon: 'i-heroicons-chart-pie',              path: '/reportes',  key: 'reportes' },

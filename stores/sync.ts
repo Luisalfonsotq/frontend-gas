@@ -47,9 +47,12 @@ export const useSyncStore = defineStore('sync', {
           lecturas: cleanLecturas,
         };
 
+        const config = useRuntimeConfig();
+        const apiBaseUrl = config.public.apiBaseUrl || 'http://localhost:3001/api';
+        
         // 3. Enviar datos al backend (Sincronización masiva)
         // Nota: En un entorno de cliente/Pinia, usamos $fetch en lugar de useFetch
-        const response: any = await $fetch('http://localhost:3001/api/sync', {
+        const response: any = await $fetch(`${apiBaseUrl}/sync`, {
           method: 'POST',
           body: syncPayload,
         });

@@ -36,14 +36,10 @@
               </select>
             </div>
             <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">ID Barrio/Vereda (UUID) *</label>
-              <input v-model="form.barrio_vereda_id" type="text" required class="w-full rounded-xl border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-4 py-2 border" placeholder="Ej. 123e4567-e89b-12d3..."/>
-            </div>
-            <div>
               <label class="block text-sm font-medium text-slate-700 mb-1">Número de Documento *</label>
               <input v-model="form.documento_identidad" type="text" required class="w-full rounded-xl border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-4 py-2 border" />
             </div>
-            <div>
+            <div class="sm:col-span-2">
               <label class="block text-sm font-medium text-slate-700 mb-1">Teléfono *</label>
               <input v-model="form.telefono" type="tel" required class="w-full rounded-xl border-slate-300 shadow-sm focus:border-emerald-500 focus:ring-emerald-500 px-4 py-2 border" />
             </div>
@@ -77,6 +73,109 @@
                 {{ ubicacionCargando ? 'Buscando...' : 'Capturar GPS' }}
               </button>
             </div>
+
+            <!-- ─── Selectores de Zona en Cascada ──────────────────────────── -->
+            <div class="bg-slate-50 rounded-xl p-5 border border-slate-200 space-y-4">
+              <div class="flex items-center gap-2 mb-1">
+                <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
+                </svg>
+                <p class="text-sm font-semibold text-slate-700">Zona de Servicio *</p>
+              </div>
+
+              <!-- Error de geografía -->
+              <div v-if="errorGeo" class="flex items-center gap-2 text-amber-700 bg-amber-50 border border-amber-200 rounded-lg px-3 py-2 text-sm">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                {{ errorGeo }} Usando datos guardados si están disponibles.
+              </div>
+
+              <!-- Departamento -->
+              <div>
+                <label class="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">1. Departamento</label>
+                <div class="relative">
+                  <select
+                    :value="departamentoId"
+                    @change="onDepartamentoChange(($event.target as HTMLSelectElement).value)"
+                    required
+                    :disabled="cargandoDepartamentos"
+                    class="w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-4 py-2.5 border bg-white appearance-none pr-10 disabled:opacity-60 disabled:cursor-wait"
+                  >
+                    <option value="">
+                      {{ cargandoDepartamentos ? 'Cargando departamentos...' : '— Selecciona un departamento —' }}
+                    </option>
+                    <option v-for="dep in departamentos" :key="dep.id" :value="dep.id">
+                      {{ dep.nombre }}
+                    </option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
+                    <svg v-if="cargandoDepartamentos" class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                    <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Municipio -->
+              <div>
+                <label class="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">2. Municipio</label>
+                <div class="relative">
+                  <select
+                    :value="municipioId"
+                    @change="onMunicipioChange(($event.target as HTMLSelectElement).value)"
+                    required
+                    :disabled="!departamentoId || cargandoMunicipios"
+                    class="w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-4 py-2.5 border bg-white appearance-none pr-10 disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    <option value="">
+                      <template v-if="!departamentoId">Primero selecciona un departamento</template>
+                      <template v-else-if="cargandoMunicipios">Cargando municipios...</template>
+                      <template v-else>— Selecciona un municipio —</template>
+                    </option>
+                    <option v-for="mun in municipios" :key="mun.id" :value="mun.id">
+                      {{ mun.nombre }}
+                    </option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
+                    <svg v-if="cargandoMunicipios" class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                    <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Barrio / Vereda -->
+              <div>
+                <label class="block text-xs font-medium text-slate-500 uppercase tracking-wide mb-1">3. Barrio / Vereda</label>
+                <div class="relative">
+                  <select
+                    :value="barrioVeredaId"
+                    @change="seleccionarBarrioVereda(($event.target as HTMLSelectElement).value)"
+                    required
+                    :disabled="!municipioId || cargandoBarrios"
+                    class="w-full rounded-lg border-slate-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 px-4 py-2.5 border bg-white appearance-none pr-10 disabled:opacity-60 disabled:cursor-not-allowed"
+                  >
+                    <option value="">
+                      <template v-if="!municipioId">Primero selecciona un municipio</template>
+                      <template v-else-if="cargandoBarrios">Cargando barrios/veredas...</template>
+                      <template v-else>— Selecciona un barrio o vereda —</template>
+                    </option>
+                    <option v-for="bv in barriosVeredas" :key="bv.id" :value="bv.id">
+                      {{ bv.nombre }}
+                    </option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3 text-slate-400">
+                    <svg v-if="cargandoBarrios" class="animate-spin w-4 h-4" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg>
+                    <svg v-else class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Confirmación visual de zona seleccionada -->
+              <div v-if="form.barrio_vereda_id" class="flex items-center gap-2 text-emerald-700 bg-emerald-50 border border-emerald-200 rounded-lg px-3 py-2 text-sm">
+                <svg class="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+                Zona asignada correctamente
+              </div>
+            </div>
+            <!-- ─── Fin Selectores de Zona ──────────────────────────────────── -->
+
           </div>
         </div>
 
@@ -137,9 +236,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
+import { useGeography } from '@/composables/useGeography';
 import { v4 as uuidv4 } from 'uuid';
 import { db } from '@/utils/db'; // Dexie instance
 
@@ -150,6 +250,25 @@ const { user } = useAuth();
 const guardando = ref(false);
 const ubicacionCargando = ref(false);
 
+// ─── Geografía en cascada ──────────────────────────────────────────────────
+const {
+  departamentos,
+  municipios,
+  barriosVeredas,
+  departamentoId,
+  municipioId,
+  barrioVeredaId,
+  cargandoDepartamentos,
+  cargandoMunicipios,
+  cargandoBarrios,
+  errorGeo,
+  cargarDepartamentos,
+  onDepartamentoChange,
+  onMunicipioChange,
+  onBarrioVeredaChange,
+} = useGeography();
+
+// ─── Formulario ────────────────────────────────────────────────────────────
 const form = reactive({
   nombres: '',
   apellidos: '',
@@ -160,8 +279,14 @@ const form = reactive({
   latitud: null as number | null,
   longitud: null as number | null,
   is_analfabeto: false,
-  barrio_vereda_id: '' as string
+  barrio_vereda_id: '' as string,
 });
+
+// Cuando el usuario elige un barrio/vereda, actualizamos el form directamente
+const seleccionarBarrioVereda = (id: string) => {
+  onBarrioVeredaChange(id);
+  form.barrio_vereda_id = id;
+};
 
 // Biometric base64 variables
 const rostroBase64 = ref<string | null>(null);
@@ -212,19 +337,19 @@ const guardarProspecto = async () => {
     return;
   }
 
-  if (!form.barrio_vereda_id || form.barrio_vereda_id.length < 36) {
-    alert("Debe ingresar un UUID válido para el Barrio/Vereda.");
+  if (!form.barrio_vereda_id) {
+    alert("Debe seleccionar el Barrio o Vereda donde se ubica el prospecto.");
     return;
   }
 
   try {
     guardando.value = true;
     
-    // Create new ClienteLocal object
     const newClienteId = uuidv4();
     
     const prospecto = {
       id: newClienteId,
+      local_id: newClienteId,
       nombres: form.nombres,
       apellidos: form.apellidos,
       tipo_documento: form.tipo_documento,
@@ -236,13 +361,11 @@ const guardarProspecto = async () => {
       is_analfabeto: form.is_analfabeto,
       estado: 'PROSPECTO',
       barrio_vereda_id: form.barrio_vereda_id,
-      impulsador_id: user.value?.id || null, // from useAuth
+      impulsador_id: user.value?.id || null,
       is_synced: 0,
-      local_id: newClienteId,
       created_at_manual: new Date().toISOString()
     };
 
-    // Transaction for customer and biometrics
     await db.transaction('rw', db.clientes, db.biometrias, async () => {
       await db.clientes.add(prospecto);
 
@@ -253,7 +376,7 @@ const guardarProspecto = async () => {
             local_id: uuidv4(),
             cliente_id: newClienteId,
             tipo: 'ROSTRO',
-            file_base64: rostroBase64.value, // We'll store directly to Base64 since it's offline
+            file_base64: rostroBase64.value,
             is_synced: 0,
             created_at_manual: new Date().toISOString()
           });
@@ -263,7 +386,7 @@ const guardarProspecto = async () => {
             id: uuidv4(),
             local_id: uuidv4(),
             cliente_id: newClienteId,
-            tipo: 'HUELLA', // or FIRMA
+            tipo: 'HUELLA',
             file_base64: huellaBase64.value,
             is_synced: 0,
             created_at_manual: new Date().toISOString()
@@ -282,6 +405,13 @@ const guardarProspecto = async () => {
     guardando.value = false;
   }
 };
+
+// ─── Inicialización ────────────────────────────────────────────────────────
+// Al montar la página, cargamos los departamentos automáticamente.
+// Si no hay red, usa el caché de IndexedDB.
+onMounted(() => {
+  cargarDepartamentos();
+});
 </script>
 
 <style scoped>
