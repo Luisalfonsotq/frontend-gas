@@ -22,7 +22,12 @@ export interface ClienteLocal extends LocalEntity {
   estado: string; // "PROSPECTO" | "CLIENTE" | "INACTIVO"
   barrio_vereda_id: string | null;
   impulsador_id: string | null;
+  codigo: string | null;
+  estrato: number;
+  tipo_servicio: string;
+  tiene_financiacion: boolean;
 }
+
 
 // ─── Interfaces: Caché de Geografía (solo lectura, viene del servidor) ───────
 

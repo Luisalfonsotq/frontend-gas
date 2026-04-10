@@ -48,6 +48,48 @@
 
         <hr class="border-slate-100" />
 
+        <!-- Datos del Servicio -->
+        <div>
+          <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
+            <span class="w-2 h-6 bg-amber-500 rounded-full"></span>
+            Datos del Servicio
+          </h2>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Código Único/Contrato</label>
+              <input v-model="form.codigo" type="text" class="w-full rounded-xl border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 px-4 py-2 border" placeholder="Ej. 23001006-01050475" />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Estrato Socioeconómico *</label>
+              <select v-model.number="form.estrato" required class="w-full rounded-xl border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 px-4 py-2 border bg-white">
+                <option :value="1">Estrato 1</option>
+                <option :value="2">Estrato 2</option>
+                <option :value="3">Estrato 3</option>
+                <option :value="4">Estrato 4</option>
+                <option :value="5">Estrato 5</option>
+                <option :value="6">Estrato 6</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">Tipo de Servicio *</label>
+              <select v-model="form.tipo_servicio" required class="w-full rounded-xl border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 px-4 py-2 border bg-white">
+                <option value="RESIDENCIAL">Residencial</option>
+                <option value="COMERCIAL">Comercial</option>
+                <option value="INDUSTRIAL">Industrial</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-700 mb-1">¿Tiene Financiación? *</label>
+              <select v-model="form.tiene_financiacion" required class="w-full rounded-xl border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 px-4 py-2 border bg-white">
+                <option :value="true">SÍ</option>
+                <option :value="false">NO</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <hr class="border-slate-100" />
+
         <!-- Ubicación -->
         <div>
           <h2 class="text-lg font-bold text-slate-800 mb-4 flex items-center gap-2">
@@ -280,6 +322,10 @@ const form = reactive({
   longitud: null as number | null,
   is_analfabeto: false,
   barrio_vereda_id: '' as string,
+  codigo: '',
+  estrato: 1,
+  tipo_servicio: 'RESIDENCIAL',
+  tiene_financiacion: false,
 });
 
 // Cuando el usuario elige un barrio/vereda, actualizamos el form directamente
@@ -361,6 +407,10 @@ const guardarProspecto = async () => {
       is_analfabeto: form.is_analfabeto,
       estado: 'PROSPECTO',
       barrio_vereda_id: form.barrio_vereda_id,
+      codigo: form.codigo || null,
+      estrato: form.estrato,
+      tipo_servicio: form.tipo_servicio,
+      tiene_financiacion: form.tiene_financiacion,
       impulsador_id: user.value?.id || null,
       is_synced: 0,
       created_at_manual: new Date().toISOString()
