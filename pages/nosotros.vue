@@ -48,7 +48,7 @@
 
           <div class="order-1 md:order-2">
             <div class="rounded-3xl overflow-hidden shadow-2xl transform hover:scale-105 transition-all duration-300">
-              <img src="assets/img/equipo2.jfif"
+              <img src="/assets/img/equipo2.jfif"
                 alt="Equipo de desarrollo" class="w-full h-auto">
             </div>
           </div>
@@ -108,7 +108,7 @@
 
         <div class="grid md:grid-cols-2 gap-8 items-center">
           <div class="rounded-3xl overflow-hidden shadow-2xl">
-            <img src="/assets/img/interaccion.jpg" alt="interaccion"
+            <img src="/assets/img/equipo.jfif" alt="Interacción natural"
               class="w-full h-auto transform hover:scale-105 transition-all duration-500">
           </div>
           <div class="bg-white rounded-3xl p-8 shadow-xl">
