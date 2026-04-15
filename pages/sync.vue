@@ -6,20 +6,20 @@
         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" /></svg>
         Volver al Dashboard
       </NuxtLink>
-      <h1 class="text-3xl font-extrabold text-slate-900 tracking-tight flex items-center gap-3">
+      <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight flex items-center gap-3">
         <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
         Sincronización Local
       </h1>
-      <p class="text-slate-500 mt-2">Envía los datos recolectados en modo offline hacia el servidor central.</p>
+      <p class="text-slate-500 dark:text-slate-400 mt-2">Envía los datos recolectados en modo offline hacia el servidor central.</p>
     </div>
 
-    <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden mb-6">
+    <div class="bg-white dark:bg-slate-800 rounded-2xl shadow-sm border border-slate-200 dark:border-slate-700 overflow-hidden mb-6">
       <div class="p-6 border-b border-slate-100 flex flex-col md:flex-row justify-between items-center gap-4">
         <div>
-          <h2 class="text-xl font-bold text-slate-800">Estado Local</h2>
-          <p class="text-sm text-slate-500">
+          <h2 class="text-xl font-bold text-slate-800 dark:text-white">Estado Local</h2>
+          <p class="text-sm text-slate-500 dark:text-slate-400">
             Última sincronización: 
-            <span class="font-medium text-slate-700">{{ syncStore.lastSync ? new Date(syncStore.lastSync).toLocaleString() : 'Nunca' }}</span>
+            <span class="font-medium text-slate-700 dark:text-slate-300">{{ syncStore.lastSync ? new Date(syncStore.lastSync).toLocaleString() : 'Nunca' }}</span>
           </p>
         </div>
         
@@ -37,33 +37,33 @@
         </button>
       </div>
 
-      <div class="p-6 bg-slate-50 grid grid-cols-2 md:grid-cols-4 gap-4">
-        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
-          <p class="text-sm font-medium text-slate-500 mb-1">Prospectos</p>
-          <p class="text-3xl font-bold text-slate-800">{{ conteos.clientes }}</p>
+      <div class="p-6 bg-slate-50 dark:bg-slate-900/50 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Prospectos</p>
+          <p class="text-3xl font-bold text-slate-800 dark:text-white">{{ conteos.clientes }}</p>
         </div>
-        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
-          <p class="text-sm font-medium text-slate-500 mb-1">Biometrías</p>
-          <p class="text-3xl font-bold text-slate-800">{{ conteos.biometrias }}</p>
+        <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Biometrías</p>
+          <p class="text-3xl font-bold text-slate-800 dark:text-white">{{ conteos.biometrias }}</p>
         </div>
-        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
-          <p class="text-sm font-medium text-slate-500 mb-1">Medidores</p>
-          <p class="text-3xl font-bold text-slate-800">{{ conteos.medidores }}</p>
+        <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Medidores</p>
+          <p class="text-3xl font-bold text-slate-800 dark:text-white">{{ conteos.medidores }}</p>
         </div>
-        <div class="bg-white p-4 rounded-xl border border-slate-200 text-center">
-          <p class="text-sm font-medium text-slate-500 mb-1">Lecturas</p>
-          <p class="text-3xl font-bold text-slate-800">{{ conteos.lecturas }}</p>
+        <div class="bg-white dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
+          <p class="text-sm font-medium text-slate-500 dark:text-slate-400 mb-1">Lecturas</p>
+          <p class="text-3xl font-bold text-slate-800 dark:text-white">{{ conteos.lecturas }}</p>
         </div>
       </div>
     </div>
 
     <!-- Errores -->
-    <div v-if="syncStore.syncErrors.length > 0" class="bg-red-50 border border-red-200 rounded-xl p-5 mb-6">
-      <h3 class="text-red-800 font-bold mb-2 flex items-center gap-2">
+    <div v-if="syncStore.syncErrors.length > 0" class="bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-xl p-5 mb-6">
+      <h3 class="text-red-800 dark:text-red-300 font-bold mb-2 flex items-center gap-2">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
         Errores en la Sincronización
       </h3>
-      <ul class="list-disc pl-5 space-y-1 text-sm text-red-600">
+      <ul class="list-disc pl-5 space-y-1 text-sm text-red-600 dark:text-red-400">
         <li v-for="(err, idx) in syncStore.syncErrors" :key="idx">{{ err }}</li>
       </ul>
     </div>

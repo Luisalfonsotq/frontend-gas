@@ -4,17 +4,17 @@
   <div class="space-y-8 animate-fade-in">
 
     <!-- Header -->
-    <div class="bg-gradient-to-r from-blue-900 via-blue-800 to-slate-900 rounded-2xl shadow-xl p-8 text-white relative overflow-hidden">
-      <div class="absolute top-0 right-0 -mr-12 -mt-12 w-48 h-48 bg-blue-400 opacity-10 rounded-full blur-3xl"></div>
+    <div class="bg-gradient-to-r from-blue-950 via-slate-900 to-slate-950 dark:from-blue-950 dark:via-slate-900 rounded-2xl shadow-xl p-8 text-white relative overflow-hidden">
+      <div class="absolute top-0 right-0 -mr-12 -mt-12 w-48 h-48 bg-blue-500 opacity-10 rounded-full blur-3xl"></div>
       <div class="relative z-10 flex flex-col md:flex-row items-center gap-6">
-        <div class="w-20 h-20 bg-gradient-to-br from-blue-500 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
+        <div class="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-2xl flex items-center justify-center shadow-lg flex-shrink-0">
           <svg class="w-11 h-11 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
           </svg>
         </div>
         <div class="text-center md:text-left">
-          <p class="text-blue-300 text-sm font-semibold uppercase tracking-widest mb-1">Panel Jefe de Zona</p>
+          <p class="text-blue-400 text-sm font-semibold uppercase tracking-widest mb-1">Panel Jefe de Zona</p>
           <h1 class="text-3xl font-bold tracking-tight">Hola, {{ user?.nombre || 'Jefe' }}</h1>
           <p class="text-slate-300 mt-1">Supervisa tu equipo de campo · GasField Colombia</p>
           <div class="flex items-center justify-center md:justify-start gap-3 mt-3">
@@ -28,15 +28,15 @@
     <!-- KPIs -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       <div v-for="kpi in kpis" :key="kpi.label"
-        class="bg-white rounded-xl shadow-sm border p-5 hover:shadow-md transition-all duration-300"
+        class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-5 hover:shadow-md transition-all duration-300"
         :class="kpi.border">
         <div :class="['w-10 h-10 rounded-xl flex items-center justify-center mb-3', kpi.iconBg]">
           <svg class="w-5 h-5" :class="kpi.iconColor" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="kpi.icon" />
           </svg>
         </div>
-        <p class="text-sm text-slate-500 font-medium">{{ kpi.label }}</p>
-        <p class="text-3xl font-bold text-slate-800 mt-0.5">{{ kpi.value }}</p>
+        <p class="text-sm text-slate-500 dark:text-slate-400 font-medium">{{ kpi.label }}</p>
+        <p class="text-3xl font-bold text-slate-800 dark:text-white mt-0.5">{{ kpi.value }}</p>
         <p class="text-xs mt-1" :class="kpi.subColor">{{ kpi.sub }}</p>
       </div>
     </div>
@@ -45,22 +45,22 @@
     <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
 
       <!-- Acciones del Jefe -->
-      <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-        <h2 class="text-lg font-bold text-slate-800 mb-5 flex items-center gap-2">
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-5 flex items-center gap-2">
           <span class="w-1.5 h-6 bg-blue-500 rounded-full"></span>
           Gestión de Zona
         </h2>
         <div class="grid grid-cols-1 gap-3">
           <NuxtLink v-for="action in jefeActions" :key="action.label" :to="action.path"
-            class="flex items-center gap-4 p-3.5 rounded-xl border border-slate-100 hover:border-blue-300 hover:bg-blue-50 transition-all duration-200 group">
+            class="flex items-center gap-4 p-3.5 rounded-xl border border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/50 transition-all duration-200 group">
             <div :class="['p-2.5 rounded-xl', action.iconBg, 'group-hover:scale-110 transition-transform duration-200']">
               <svg class="w-5 h-5" :class="action.iconColor" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="action.icon" />
               </svg>
             </div>
             <div>
-              <p class="font-semibold text-slate-800 text-sm">{{ action.label }}</p>
-              <p class="text-xs text-slate-500">{{ action.desc }}</p>
+              <p class="font-semibold text-slate-800 dark:text-white text-sm">{{ action.label }}</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">{{ action.desc }}</p>
             </div>
             <svg class="w-4 h-4 text-slate-300 ml-auto group-hover:text-blue-400 transition" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -70,8 +70,8 @@
       </div>
 
       <!-- Estado del equipo -->
-      <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-        <h2 class="text-lg font-bold text-slate-800 mb-5 flex items-center gap-2">
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-200 dark:border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-5 flex items-center gap-2">
           <span class="w-1.5 h-6 bg-green-500 rounded-full"></span>
           Resumen de Zona
         </h2>
@@ -86,19 +86,19 @@
             </div>
             <div class="flex-1">
               <p class="text-sm font-semibold" :class="item.textColor">{{ item.label }}</p>
-              <p class="text-xs text-slate-400">{{ item.sub }}</p>
+              <p class="text-xs text-slate-400 dark:text-slate-500">{{ item.sub }}</p>
             </div>
             <span class="text-xl font-bold" :class="item.valueColor">{{ item.value }}</span>
           </div>
         </div>
 
         <!-- Nota offline -->
-        <div class="mt-4 p-3 bg-orange-50 border border-orange-100 rounded-xl flex items-center gap-2">
+        <div class="mt-4 p-3 bg-orange-50 dark:bg-orange-950/50 border border-orange-100 dark:border-orange-900 rounded-xl flex items-center gap-2">
           <svg class="w-4 h-4 text-orange-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.14 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0" />
           </svg>
-          <p class="text-xs text-orange-700 font-medium">Modo Offline-First activo. Los datos se sincronizan al recuperar señal.</p>
+          <p class="text-xs text-orange-700 dark:text-orange-400 font-medium">Modo Offline-First activo. Los datos se sincronizan al recuperar señal.</p>
         </div>
       </div>
     </div>

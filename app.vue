@@ -1,7 +1,11 @@
 <script setup>
 import { onMounted } from 'vue'
+import { useDarkMode } from './composables/useDarkMode'
+const { init } = useDarkMode()
 
 onMounted(() => {
+  // Modo oscuro
+  init()
   // Desactivar el menú de clic derecho (context menu) para dar sensación de app nativa
   document.addEventListener('contextmenu', event => event.preventDefault())
 

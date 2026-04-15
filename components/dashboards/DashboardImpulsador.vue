@@ -63,8 +63,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
       <!-- Estadísticas del día -->
-      <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-        <h2 class="text-lg font-bold text-slate-800 mb-5 flex items-center gap-2">
+      <div class="lg:col-span-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-5 flex items-center gap-2">
           <span class="w-1.5 h-6 bg-emerald-500 rounded-full"></span>
           Mi Actividad de Hoy
         </h2>
@@ -76,62 +76,62 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="stat.icon" />
             </svg>
             <p class="text-2xl font-bold" :class="stat.valueColor">{{ stat.value }}</p>
-            <p class="text-xs text-slate-500 mt-0.5">{{ stat.label }}</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{{ stat.label }}</p>
           </div>
         </div>
 
         <!-- Acciones secundarias -->
-        <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-slate-100">
+        <div class="mt-5 grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4 border-t border-slate-100 dark:border-slate-700">
           <NuxtLink to="/mapa"
-            class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:border-emerald-300 hover:bg-emerald-50 transition-all duration-200 group">
-            <div class="p-2 bg-teal-50 rounded-lg group-hover:scale-110 transition-transform">
-              <svg class="w-4 h-4 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-emerald-300 dark:hover:border-emerald-700 hover:bg-emerald-50 dark:hover:bg-emerald-950/30 transition-all duration-200 group">
+            <div class="p-2 bg-teal-50 dark:bg-teal-900/30 rounded-lg group-hover:scale-110 transition-transform">
+              <svg class="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
             <div>
-              <p class="font-semibold text-slate-800 text-sm">Mapa de Zona</p>
-              <p class="text-xs text-slate-400">Ver clientes en mapa</p>
+              <p class="font-semibold text-slate-800 dark:text-white text-sm">Mapa de Zona</p>
+              <p class="text-xs text-slate-400 dark:text-slate-500">Ver clientes en mapa</p>
             </div>
           </NuxtLink>
           <NuxtLink to="/sync"
-            class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 group">
-            <div class="p-2 bg-orange-50 rounded-lg group-hover:scale-110 transition-transform">
-              <svg class="w-4 h-4 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-orange-300 dark:hover:border-orange-700 hover:bg-orange-50 dark:hover:bg-orange-950/30 transition-all duration-200 group">
+            <div class="p-2 bg-orange-50 dark:bg-orange-900/30 rounded-lg group-hover:scale-110 transition-transform">
+              <svg class="w-4 h-4 text-orange-600 dark:text-orange-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
               </svg>
             </div>
             <div>
-              <p class="font-semibold text-slate-800 text-sm">Sincronizar</p>
-              <p class="text-xs text-slate-400">Subir datos offline</p>
+              <p class="font-semibold text-slate-800 dark:text-white text-sm">Sincronizar</p>
+              <p class="text-xs text-slate-400 dark:text-slate-500">Subir datos offline</p>
             </div>
           </NuxtLink>
         </div>
       </div>
 
       <!-- Panel offline -->
-      <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 flex flex-col gap-4">
-        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 flex flex-col gap-4">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
           <span class="w-1.5 h-6 bg-orange-500 rounded-full"></span>
           Estado Offline
         </h2>
 
         <div class="flex-1 space-y-3">
-          <div class="p-3 bg-orange-50 border border-orange-100 rounded-xl">
+          <div class="p-3 bg-orange-50 dark:bg-orange-950/40 border border-orange-100 dark:border-orange-900 rounded-xl">
             <div class="flex justify-between items-center mb-2">
-              <p class="text-sm font-semibold text-orange-800">Datos pendientes</p>
-              <span class="text-xl font-bold text-orange-600">0</span>
+              <p class="text-sm font-semibold text-orange-800 dark:text-orange-300">Datos pendientes</p>
+              <span class="text-xl font-bold text-orange-600 dark:text-orange-400">0</span>
             </div>
-            <p class="text-xs text-orange-600">Registros listos para sincronizar</p>
+            <p class="text-xs text-orange-600 dark:text-orange-400">Registros listos para sincronizar</p>
           </div>
 
-          <div class="p-3 bg-green-50 border border-green-100 rounded-xl">
-            <p class="text-sm font-semibold text-green-800 mb-1">Modo offline activo</p>
-            <p class="text-xs text-green-600">Puedes registrar prospectos sin internet. Los datos se enviarán al recuperar señal.</p>
+          <div class="p-3 bg-green-50 dark:bg-green-950/40 border border-green-100 dark:border-green-900 rounded-xl">
+            <p class="text-sm font-semibold text-green-800 dark:text-green-300 mb-1">Modo offline activo</p>
+            <p class="text-xs text-green-600 dark:text-green-400">Puedes registrar prospectos sin internet. Los datos se enviarán al recuperar señal.</p>
           </div>
         </div>
 
-        <p class="text-xs text-center text-slate-400">
+        <p class="text-xs text-center text-slate-400 dark:text-slate-500">
           Cumplimiento · Ley 1581 (Habeas Data) 🇨🇴
         </p>
       </div>

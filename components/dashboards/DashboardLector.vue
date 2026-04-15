@@ -63,8 +63,8 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
       <!-- Stats del día -->
-      <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-        <h2 class="text-lg font-bold text-slate-800 mb-5 flex items-center gap-2">
+      <div class="lg:col-span-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-5 flex items-center gap-2">
           <span class="w-1.5 h-6 bg-violet-500 rounded-full"></span>
           Resumen de Ruta
         </h2>
@@ -77,54 +77,54 @@
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="stat.icon" />
             </svg>
             <p class="text-2xl font-bold" :class="stat.valueColor">{{ stat.value }}</p>
-            <p class="text-xs text-slate-500 mt-0.5">{{ stat.label }}</p>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">{{ stat.label }}</p>
           </div>
         </div>
 
         <!-- Validación de lectura -->
-        <div class="p-4 bg-amber-50 border border-amber-100 rounded-xl">
-          <p class="text-sm font-semibold text-amber-800 mb-1 flex items-center gap-2">
+        <div class="p-4 bg-amber-50 dark:bg-amber-950/40 border border-amber-100 dark:border-amber-900 rounded-xl">
+          <p class="text-sm font-semibold text-amber-800 dark:text-amber-300 mb-1 flex items-center gap-2">
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
             Regla de negocio
           </p>
-          <p class="text-xs text-amber-700">
+          <p class="text-xs text-amber-700 dark:text-amber-400">
             La lectura actual <strong>nunca puede ser inferior a la anterior</strong>.
-            El consumo se calcula automáticamente: <code class="bg-amber-100 px-1 rounded">lectura_actual − lectura_anterior</code>.
+            El consumo se calcula automáticamente: <code class="bg-amber-100 dark:bg-amber-900 px-1 rounded">lectura_actual − lectura_anterior</code>.
           </p>
         </div>
       </div>
 
       <!-- Offline y acciones rápidas -->
-      <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6 flex flex-col gap-4">
-        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 p-6 flex flex-col gap-4">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-white flex items-center gap-2">
           <span class="w-1.5 h-6 bg-orange-500 rounded-full"></span>
           Acciones
         </h2>
 
         <div class="space-y-2">
           <NuxtLink v-for="action in lectorActions" :key="action.label" :to="action.path"
-            class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 hover:bg-slate-50 transition-all duration-200 group">
+            class="flex items-center gap-3 p-3 rounded-xl border border-slate-100 dark:border-slate-700 hover:bg-slate-50 dark:hover:bg-slate-700 transition-all duration-200 group">
             <div :class="['p-2 rounded-lg', action.iconBg, 'group-hover:scale-110 transition-transform']">
               <svg class="w-4 h-4" :class="action.iconColor" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="action.icon" />
               </svg>
             </div>
-            <p class="text-sm font-medium text-slate-700">{{ action.label }}</p>
-            <svg class="w-4 h-4 text-slate-300 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <p class="text-sm font-medium text-slate-700 dark:text-slate-200">{{ action.label }}</p>
+            <svg class="w-4 h-4 text-slate-300 dark:text-slate-600 ml-auto" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
           </NuxtLink>
         </div>
 
         <!-- Estado offline -->
-        <div class="p-3 bg-green-50 border border-green-100 rounded-xl mt-auto">
-          <p class="text-xs text-green-700 font-semibold flex items-center gap-1">
+        <div class="p-3 bg-green-50 dark:bg-green-950/40 border border-green-100 dark:border-green-900 rounded-xl mt-auto">
+          <p class="text-xs text-green-700 dark:text-green-400 font-semibold flex items-center gap-1">
             <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse inline-block"></span>
             Modo offline activo
           </p>
-          <p class="text-xs text-green-600 mt-1">Lecturas se guardan localmente y se sincronizan con foto de evidencia al recuperar señal.</p>
+          <p class="text-xs text-green-600 dark:text-green-500 mt-1">Lecturas se guardan localmente y se sincronizan con foto de evidencia al recuperar señal.</p>
         </div>
       </div>
     </div>

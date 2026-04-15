@@ -4,7 +4,7 @@
   <div class="space-y-8 animate-fade-in">
 
     <!-- Header de bienvenida -->
-    <div class="bg-gradient-to-r from-slate-900 via-orange-950 to-slate-900 rounded-2xl shadow-xl p-8 text-white relative overflow-hidden">
+    <div class="bg-gradient-to-r from-slate-900 via-orange-950 to-slate-900 rounded-2xl shadow-xl p-8 text-white relative overflow-hidden dark:from-slate-900 dark:via-orange-950/80">
       <div class="absolute top-0 right-0 -mr-12 -mt-12 w-48 h-48 bg-orange-500 opacity-10 rounded-full blur-3xl"></div>
       <div class="absolute bottom-0 left-0 -ml-12 -mb-12 w-40 h-40 bg-orange-400 opacity-10 rounded-full blur-2xl"></div>
       <div class="relative z-10 flex flex-col md:flex-row items-center gap-6">
@@ -32,7 +32,7 @@
     <!-- KPI Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
       <div v-for="kpi in kpis" :key="kpi.label"
-        class="bg-white rounded-xl shadow-sm border p-5 hover:shadow-md transition-all duration-300 group"
+        class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border dark:border-slate-700 p-5 hover:shadow-md transition-all duration-300 group"
         :class="kpi.borderColor">
         <div class="flex items-start justify-between mb-3">
           <div :class="['p-2.5 rounded-xl', kpi.iconBg]">
@@ -44,8 +44,8 @@
             {{ kpi.badge }}
           </span>
         </div>
-        <p class="text-sm font-medium text-slate-500">{{ kpi.label }}</p>
-        <p class="text-3xl font-bold text-slate-800 mt-0.5">{{ kpi.value }}</p>
+        <p class="text-sm font-medium text-slate-500 dark:text-slate-400">{{ kpi.label }}</p>
+        <p class="text-3xl font-bold text-slate-800 dark:text-white mt-0.5">{{ kpi.value }}</p>
       </div>
     </div>
 
@@ -53,30 +53,30 @@
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
 
       <!-- Acciones rápidas (2/3) -->
-      <div class="lg:col-span-2 bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-        <h2 class="text-lg font-bold text-slate-800 mb-5 flex items-center gap-2">
+      <div class="lg:col-span-2 bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-5 flex items-center gap-2">
           <span class="w-1.5 h-6 bg-orange-500 rounded-full"></span>
           Acciones Rápidas
         </h2>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
           <NuxtLink v-for="action in adminActions" :key="action.label" :to="action.path"
-            class="flex items-center gap-4 p-4 rounded-xl border border-slate-100 hover:border-orange-300 hover:bg-orange-50 transition-all duration-200 group">
+            class="flex items-center gap-4 p-4 rounded-xl border border-slate-100 dark:border-slate-700 hover:border-orange-300 dark:hover:border-orange-700 hover:bg-orange-50 dark:hover:bg-orange-950/30 transition-all duration-200 group">
             <div :class="['p-2.5 rounded-xl', action.iconBg, 'group-hover:scale-110 transition-transform duration-200']">
               <svg class="w-5 h-5" :class="action.iconColor" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" :d="action.icon" />
               </svg>
             </div>
             <div>
-              <p class="font-semibold text-slate-800 text-sm">{{ action.label }}</p>
-              <p class="text-xs text-slate-500">{{ action.desc }}</p>
+              <p class="font-semibold text-slate-800 dark:text-white text-sm">{{ action.label }}</p>
+              <p class="text-xs text-slate-500 dark:text-slate-400">{{ action.desc }}</p>
             </div>
           </NuxtLink>
         </div>
       </div>
 
       <!-- Estado del sistema (1/3) -->
-      <div class="bg-white rounded-xl shadow-sm border border-slate-100 p-6">
-        <h2 class="text-lg font-bold text-slate-800 mb-5 flex items-center gap-2">
+      <div class="bg-white dark:bg-slate-800 rounded-xl shadow-sm border border-slate-100 dark:border-slate-700 p-6">
+        <h2 class="text-lg font-bold text-slate-800 dark:text-white mb-5 flex items-center gap-2">
           <span class="w-1.5 h-6 bg-green-500 rounded-full"></span>
           Estado del Sistema
         </h2>
@@ -93,12 +93,12 @@
         </div>
 
         <!-- Integridad offline -->
-        <div class="mt-4 p-3 bg-slate-50 rounded-xl border border-slate-100">
-          <p class="text-xs text-slate-500 font-medium mb-1">Sincronización Offline</p>
-          <div class="w-full bg-slate-200 rounded-full h-2">
+        <div class="mt-4 p-3 bg-slate-50 dark:bg-slate-900/50 rounded-xl border border-slate-100 dark:border-slate-700">
+          <p class="text-xs text-slate-500 dark:text-slate-400 font-medium mb-1">Sincronización Offline</p>
+          <div class="w-full bg-slate-200 dark:bg-slate-700 rounded-full h-2">
             <div class="bg-orange-500 h-2 rounded-full transition-all duration-500" style="width: 100%"></div>
           </div>
-          <p class="text-xs text-orange-600 font-semibold mt-1 text-right">Todo sincronizado ✓</p>
+          <p class="text-xs text-orange-600 dark:text-orange-400 font-semibold mt-1 text-right">Todo sincronizado ✓</p>
         </div>
       </div>
     </div>

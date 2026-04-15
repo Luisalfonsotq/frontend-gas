@@ -3,6 +3,31 @@ import { defineNuxtConfig } from 'nuxt/config'
 export default defineNuxtConfig({
   compatibilityDate: '2026-03-31',
 
+  app: {
+    head: {
+      link: [
+        { rel: 'icon', type: 'image/png', href: '/fuego.png' }
+      ],
+      style: [
+        // Transici\u00f3n suave al cambiar de modo sin parpadeo
+        { innerHTML: 'html { transition: background-color 0.3s ease, color 0.3s ease; }' }
+      ],
+      script: [
+        // Anti-FOUC: aplica clase dark antes de que Vue arranque
+        {
+          innerHTML: `(function(){
+            var saved = localStorage.getItem('darkMode');
+            var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+            if (saved === 'true' || (saved === null && prefersDark)) {
+              document.documentElement.classList.add('dark');
+            }
+          })();`,
+          type: 'text/javascript'
+        }
+      ]
+    }
+  },
+
   // Módulos
   modules: [
     '@nuxtjs/tailwindcss',

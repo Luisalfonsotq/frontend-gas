@@ -16,16 +16,16 @@
     </div>
 
     <!-- Rol no reconocido -->
-    <div v-else class="max-w-2xl mx-auto mt-10 p-6 bg-white rounded-2xl shadow-md border border-slate-100">
+    <div v-else class="max-w-2xl mx-auto mt-10 p-6 bg-white dark:bg-slate-800 rounded-2xl shadow-md border border-slate-100 dark:border-slate-700">
       <div class="text-center">
-        <div class="w-16 h-16 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
+        <div class="w-16 h-16 bg-orange-100 dark:bg-orange-950/50 rounded-full flex items-center justify-center mx-auto mb-4">
           <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
               d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
           </svg>
         </div>
-        <h2 class="text-2xl font-bold text-slate-800 mb-2">Rol no reconocido</h2>
-        <p class="text-slate-500 mb-6">
+        <h2 class="text-2xl font-bold text-slate-800 dark:text-white mb-2">Rol no reconocido</h2>
+        <p class="text-slate-500 dark:text-slate-400 mb-6">
           Tu rol <strong class="text-orange-600">"{{ user?.rol }}"</strong> no tiene un panel configurado.
           Contacta al administrador del sistema.
         </p>
