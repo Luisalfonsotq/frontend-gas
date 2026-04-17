@@ -214,7 +214,7 @@ watch(() => router.currentRoute.value.path, () => {
 
     <!-- Header / Top Navigation Bar -->
     <header
-      class="bg-slate-900 border-b border-white/10 shadow-md py-3 px-6 flex items-center justify-between sticky top-0 z-10">
+      class="bg-slate-900 border-b border-white/10 shadow-md py-3 px-6 flex items-center justify-between sticky top-0 z-40">
       <div class="flex items-center">
         <button
           class="lg:hidden p-2 mr-4 rounded-md hover:bg-white/10 focus:outline-none focus:ring-2 focus:ring-orange-500"

@@ -14,7 +14,7 @@
     <div class="w-full relative">
         
         <!-- Zona de Búsqueda -->
-        <div class="max-w-4xl mx-auto mb-8 relative z-10">
+        <div class="max-w-4xl mx-auto mb-8 relative">
           <div class="relative group">
             <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
               <svg class="w-6 h-6 text-slate-400 group-focus-within:text-orange-500 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
