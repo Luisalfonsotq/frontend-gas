@@ -6,6 +6,7 @@
     <DashboardJefe        v-else-if="user?.rol === 'JEFE'" />
     <DashboardImpulsador  v-else-if="user?.rol === 'IMPULSADOR'" />
     <DashboardLector      v-else-if="user?.rol === 'LECTOR'" />
+    <DashboardAtencion    v-else-if="user?.rol === 'ATENCIÓN'" />
 
     <!-- Cargando sesión -->
     <div v-else-if="!user" class="flex items-center justify-center min-h-[60vh]">
@@ -42,13 +43,23 @@
 </template>
 
 <script setup lang="ts">
+import { watchEffect } from 'vue';
 import { useAuth } from '@/composables/useAuth';
+import { useRouter } from 'vue-router';
 import DashboardAdmin      from '@/components/dashboards/DashboardAdmin.vue';
 import DashboardJefe       from '@/components/dashboards/DashboardJefe.vue';
 import DashboardImpulsador from '@/components/dashboards/DashboardImpulsador.vue';
 import DashboardLector     from '@/components/dashboards/DashboardLector.vue';
+import DashboardAtencion   from '@/components/dashboards/DashboardAtencion.vue';
 
 definePageMeta({ layout: 'profile-layout' });
 
 const { user } = useAuth();
+const router = useRouter();
+
+watchEffect(() => {
+  if (user.value?.rol === 'ATENCIÓN') {
+    router.push('/atencion');
+  }
+});
 </script>

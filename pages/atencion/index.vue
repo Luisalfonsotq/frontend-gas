@@ -1,59 +1,17 @@
 <!-- pages/atencion/index.vue -->
 <template>
-  <div class="h-screen w-full bg-slate-50 flex overflow-hidden">
-    <!-- Sidebar / Menú Lateral -->
-    <aside class="w-20 bg-white border-r border-slate-200 flex flex-col items-center py-6 gap-8 shadow-sm shrink-0">
-      <div class="w-12 h-12 bg-orange-600 rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-orange-200">
-        PG
-      </div>
-      <nav class="flex flex-col gap-4 w-full px-4">
-        <!-- Dashboard / Búsqueda activa -->
-        <button class="p-3 bg-orange-50 text-orange-600 rounded-xl hover:bg-orange-100 transition-colors w-full flex justify-center" title="Atención al Cliente">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
-          </svg>
-        </button>
-        <!-- Historial / Operaciones del Día -->
-        <button class="p-3 text-slate-400 hover:bg-slate-50 rounded-xl transition-colors w-full flex justify-center" title="Operaciones del Día">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
-          </svg>
-        </button>
-        <!-- Cierre de Caja / Reporte -->
-        <button class="p-3 text-slate-400 hover:bg-slate-50 rounded-xl transition-colors w-full flex justify-center" title="Cierre de Caja">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path>
-          </svg>
-        </button>
-      </nav>
-      <!-- Salir -->
-      <div class="mt-auto w-full px-4">
-        <NuxtLink to="/login" class="p-3 text-red-400 hover:bg-red-50 hover:text-red-500 rounded-xl transition-colors w-full flex justify-center" title="Cerrar Sesión">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
-          </svg>
-        </NuxtLink>
-      </div>
-    </aside>
+  <div class="w-full animation-fade-in">
+    <!-- Encabezado de la página -->
+    <div class="mb-6 pb-6 border-b border-slate-200">
+      <h1 class="text-2xl font-bold text-slate-800 tracking-tight flex items-center gap-3">
+        <svg class="w-8 h-8 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
+        Centro de Atención al Cliente
+      </h1>
+      <p class="text-sm text-slate-500 mt-1">Búsqueda rápida de clientes, estado de cuenta e impresión de recibos.</p>
+    </div>
 
-    <!-- Área Principal -->
-    <main class="flex-1 flex flex-col h-screen overflow-hidden">
-      <!-- Barra Superior (Topbar) que puede arrastrarse en Tauri -->
-      <header class="h-20 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 flex items-center justify-between shrink-0 drag-region relative z-20">
-        <h1 class="text-2xl font-bold text-slate-800 tracking-tight">Centro de Atención al Cliente</h1>
-        <div class="flex items-center gap-4">
-          <div class="text-right mr-2">
-            <p class="text-sm font-bold text-slate-700">María Operadora</p>
-            <p class="text-xs text-slate-500">Terminal #04 - Sede Principal</p>
-          </div>
-          <div class="w-10 h-10 bg-slate-200 rounded-full overflow-hidden border border-slate-300">
-            <img src="https://ui-avatars.com/api/?name=Maria+Operadora&background=f1f5f9&color=64748b" alt="Avatar"/>
-          </div>
-        </div>
-      </header>
-
-      <!-- Espacio de Trabajo Escroleable -->
-      <div class="flex-1 overflow-auto p-8 relative">
+    <!-- Contenido -->
+    <div class="w-full relative">
         
         <!-- Zona de Búsqueda -->
         <div class="max-w-4xl mx-auto mb-8 relative z-10">
@@ -280,8 +238,7 @@
           </p>
         </div>
 
-      </div>
-    </main>
+    </div>
   </div>
 </template>
 
@@ -289,7 +246,7 @@
 import { ref } from 'vue'
 import { useRuntimeConfig } from '#app'
 
-definePageMeta({ layout: false })
+definePageMeta({ layout: 'profile-layout' })
 
 const config = useRuntimeConfig()
 const searchQuery = ref('')

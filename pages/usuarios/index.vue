@@ -39,7 +39,8 @@
                         'bg-purple-100 text-purple-700': u.rol === 'ADMIN',
                         'bg-blue-100 text-blue-700': u.rol === 'JEFE',
                         'bg-orange-100 text-orange-700': u.rol === 'IMPULSADOR',
-                        'bg-green-100 text-green-700': u.rol === 'LECTOR'
+                        'bg-green-100 text-green-700': u.rol === 'LECTOR',
+                        'bg-amber-100 text-amber-700': u.rol === 'ATENCIÓN'
                       }">
                   {{ u.rol }}
                 </span>
@@ -101,6 +102,7 @@
               <template v-if="currentUser?.rol === 'ADMIN'">
                 <option value="ADMIN">ADMIN (Administrador)</option>
                 <option value="JEFE">JEFE (Jefe de Zona)</option>
+                <option value="ATENCIÓN">ATENCIÓN (Atención al Cliente)</option>
               </template>
               <option value="IMPULSADOR">IMPULSADOR (Preventa)</option>
               <option value="LECTOR">LECTOR (Operario Medidores)</option>

@@ -109,6 +109,12 @@ export const roleSidebarConfig = {
     { name: 'Mapa de ruta',  icon: 'i-heroicons-map',                path: '/mapa',           key: 'mapa' },
     { name: 'Sincronizar',   icon: 'i-heroicons-arrow-path',         path: '/sync',           key: 'sync' },
   ],
+  
+  // ─── ATENCIÓN ──────────────────────────────────────────────────────────────
+  ATENCIÓN: [
+    { name: 'Dashboard',     icon: 'i-heroicons-home',               path: '/dashboard',      key: 'dashboard' },
+    { name: 'Atención al Cliente', icon: 'i-heroicons-computer-desktop', path: '/atencion', key: 'atencion' },
+  ],
 };
 
 // ─── BOTÓN CREAR por rol ────────────────────────────────────────────────────
