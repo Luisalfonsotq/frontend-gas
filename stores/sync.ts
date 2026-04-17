@@ -52,9 +52,11 @@ export const useSyncStore = defineStore('sync', {
         
         // 3. Enviar datos al backend (Sincronización masiva)
         // Nota: En un entorno de cliente/Pinia, usamos $fetch en lugar de useFetch
-        const response: any = await $fetch(`${apiBaseUrl}/sync`, {
+        const token = localStorage.getItem('access_token') || '';
+        const response: any = await $fetch(`${apiBaseUrl}/sync/push`, {
           method: 'POST',
           body: syncPayload,
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
 
         // 4. Si el backend responde con éxito, actualizamos el estado local
