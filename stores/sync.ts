@@ -32,26 +32,36 @@ export const useSyncStore = defineStore('sync', {
           return;
         }
 
-        // Limpiamos los campos locales que el backend no espera en los DTOs (ej. is_synced, estado)
-        // ya que el backend usa class-validator (forbidNonWhitelisted: true) y las rechazaría.
-        const cleanClientes = pendingClientes.map(({ is_synced, estado, ...rest }) => rest);
+        // Limpiamos los campos locales que el backend no espera en los DTOs.
+        // El backend usa class-validator con forbidNonWhitelisted: true,
+        // así que cualquier prop extra causa un error 400.
+        const cleanClientes = pendingClientes.map((c) => {
+          const { is_synced, estado, ...rest } = c;
+          // Asegurar que los campos numéricos opcionales no sean null
+          // y que los UUIDs obligatorios estén presentes
+          return {
+            ...rest,
+            latitud: rest.latitud ?? 0,
+            longitud: rest.longitud ?? 0,
+          };
+        });
         const cleanBiometrias = pendingBiometrias.map(({ is_synced, ...rest }) => rest);
         const cleanMedidores = pendingMedidores.map(({ is_synced, ...rest }) => rest);
         const cleanLecturas = pendingLecturas.map(({ is_synced, ...rest }) => rest);
 
         // Construimos el payload de sincronización masiva
-        const syncPayload = {
-          clientes: cleanClientes,
-          biometrias: cleanBiometrias,
-          medidores: cleanMedidores,
-          lecturas: cleanLecturas,
-        };
+        const syncPayload: Record<string, any> = {};
+
+        // Solo enviar arrays que tengan contenido
+        if (cleanClientes.length > 0) syncPayload.clientes = cleanClientes;
+        if (cleanBiometrias.length > 0) syncPayload.biometrias = cleanBiometrias;
+        if (cleanMedidores.length > 0) syncPayload.medidores = cleanMedidores;
+        if (cleanLecturas.length > 0) syncPayload.lecturas = cleanLecturas;
 
         const config = useRuntimeConfig();
         const apiBaseUrl = config.public.apiBaseUrl || 'http://localhost:3001/api';
         
         // 3. Enviar datos al backend (Sincronización masiva)
-        // Nota: En un entorno de cliente/Pinia, usamos $fetch en lugar de useFetch
         const token = localStorage.getItem('access_token') || '';
         const response: any = await $fetch(`${apiBaseUrl}/sync/push`, {
           method: 'POST',
@@ -59,9 +69,11 @@ export const useSyncStore = defineStore('sync', {
           headers: token ? { Authorization: `Bearer ${token}` } : {},
         });
 
-        // 4. Si el backend responde con éxito, actualizamos el estado local
-        // Se asume que el backend devuelve un objeto confirmando las IDs sincronizadas
-        if (response && response.success) {
+        // 4. Verificar respuesta del backend.
+        // El backend devuelve: { estado: 'EXITOSO'|'PARCIAL'|'FALLIDO', detalles: {...}, ... }
+        if (response && (response.estado === 'EXITOSO' || response.estado === 'PARCIAL')) {
+          // Marcar todos los registros enviados como sincronizados.
+          // Los "ignorados" (409 = ya existían) también se marcan, ya están en la BD.
           await db.transaction('rw', db.clientes, db.biometrias, db.medidores, db.lecturas, async () => {
              for (const cliente of pendingClientes) {
                await db.clientes.update(cliente.id, { is_synced: 1 });
@@ -77,13 +89,48 @@ export const useSyncStore = defineStore('sync', {
              }
           });
           this.lastSync = new Date();
+
+          // Si fue parcial, reportar los errores específicos que devolvió el backend
+          if (response.estado === 'PARCIAL' && response.detalles) {
+            const d = response.detalles;
+            const allErrors: string[] = [
+              ...(d.clientes?.errores || []),
+              ...(d.medidores?.errores || []),
+              ...(d.biometrias?.errores || []),
+              ...(d.lecturas?.errores || []),
+            ];
+            if (allErrors.length > 0) {
+              this.syncErrors.push(
+                `Sincronización parcial (${response.registros_creados} creados, ` +
+                `${response.registros_ignorados} ya existían). Errores:`,
+              );
+              this.syncErrors.push(...allErrors);
+            }
+          }
         } else {
-          this.syncErrors.push('El servidor no devolvió una respuesta exitosa.');
+          this.syncErrors.push(
+            `El servidor devolvió estado: ${response?.estado || 'desconocido'}. ` +
+            `No se pudieron guardar los datos.`
+          );
         }
 
       } catch (error: any) {
         console.error('Error durante la sincronización:', error);
-        this.syncErrors.push(error.message || 'Error de conexión durante la sincronización');
+
+        // Intentar extraer el mensaje detallado del error del backend
+        const backendMessage = error?.data?.message;
+        if (Array.isArray(backendMessage)) {
+          // class-validator devuelve un array de mensajes de validación
+          this.syncErrors.push(
+            `[${error?.statusCode || error?.status || 'ERR'}] Errores de validación:`
+          );
+          this.syncErrors.push(...backendMessage);
+        } else {
+          this.syncErrors.push(
+            `[${error?.statusCode || error?.status || 'ERR'}] ` +
+            `${backendMessage || error.message || 'Error de conexión durante la sincronización'}`
+          );
+        }
       } finally {
         this.isSyncing = false;
       }
