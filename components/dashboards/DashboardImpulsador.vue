@@ -130,9 +130,8 @@
             <p class="text-xs text-green-600 dark:text-green-400">Puedes registrar prospectos sin internet. Los datos se enviarán al recuperar señal.</p>
           </div>
 
-          <!-- Botón para limpiar datos pendientes obsoletos -->
+          <!-- Botón para limpiar TODOS los datos locales -->
           <button
-            v-if="pendingCount > 0"
             @click="limpiarDatosPendientes"
             :disabled="limpiando"
             class="w-full flex items-center justify-center gap-2 p-3 bg-red-50 dark:bg-red-950/40 border border-red-200 dark:border-red-900 rounded-xl text-red-700 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-950/60 transition-colors text-sm font-semibold disabled:opacity-50 disabled:cursor-not-allowed"
@@ -140,7 +139,7 @@
             <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
             </svg>
-            {{ limpiando ? 'Limpiando...' : 'Limpiar datos pendientes' }}
+            {{ limpiando ? 'Limpiando...' : 'Limpiar todos los datos locales' }}
           </button>
         </div>
 
@@ -160,16 +159,17 @@ import { db } from '@/utils/db';
 
 const { user } = useAuth();
 
-// ─── Conteo de datos pendientes en IndexedDB ─────────────────────────────
+// ─── Conteo de TODOS los datos locales en IndexedDB ──────────────────────
 const pendingCount = ref(0);
 const limpiando = ref(false);
 
 const contarPendientes = async () => {
   try {
-    const clientes = await db.clientes.where('is_synced').equals(0).count();
-    const biometrias = await db.biometrias.where('is_synced').equals(0).count();
-    const medidores = await db.medidores.where('is_synced').equals(0).count();
-    const lecturas = await db.lecturas.where('is_synced').equals(0).count();
+    // Contar TODOS los registros (no filtrar por is_synced, pues los viejos pueden tener otro formato)
+    const clientes = await db.clientes.count();
+    const biometrias = await db.biometrias.count();
+    const medidores = await db.medidores.count();
+    const lecturas = await db.lecturas.count();
     pendingCount.value = clientes + biometrias + medidores + lecturas;
   } catch (e) {
     console.error('Error contando pendientes:', e);
@@ -177,22 +177,23 @@ const contarPendientes = async () => {
 };
 
 const limpiarDatosPendientes = async () => {
+  const totalDatos = pendingCount.value;
   const confirmar = confirm(
-    `⚠️ ¿Estás seguro de eliminar ${pendingCount.value} registro(s) pendientes?\n\n` +
-    'Esta acción NO se puede deshacer. Los datos que no fueron sincronizados se perderán permanentemente.'
+    `⚠️ ¿Estás seguro de eliminar TODOS los ${totalDatos} registro(s) locales?\n\n` +
+    'Esto incluye prospectos, biometrías, medidores y lecturas almacenados en este dispositivo.\n' +
+    'Esta acción NO se puede deshacer.'
   );
   if (!confirmar) return;
 
   try {
     limpiando.value = true;
-    await db.transaction('rw', db.clientes, db.biometrias, db.medidores, db.lecturas, async () => {
-      await db.clientes.where('is_synced').equals(0).delete();
-      await db.biometrias.where('is_synced').equals(0).delete();
-      await db.medidores.where('is_synced').equals(0).delete();
-      await db.lecturas.where('is_synced').equals(0).delete();
-    });
+    // Limpiar TODAS las tablas completas con .clear()
+    await db.clientes.clear();
+    await db.biometrias.clear();
+    await db.medidores.clear();
+    await db.lecturas.clear();
     pendingCount.value = 0;
-    alert('✅ Datos pendientes eliminados correctamente.');
+    alert('✅ Todos los datos locales han sido eliminados correctamente.');
   } catch (e) {
     console.error('Error limpiando datos:', e);
     alert('Error al limpiar los datos. Revisa la consola.');
