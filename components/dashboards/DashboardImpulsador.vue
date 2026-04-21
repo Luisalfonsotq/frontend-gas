@@ -165,14 +165,14 @@ const limpiando = ref(false);
 
 const contarPendientes = async () => {
   try {
-    // Contar TODOS los registros (no filtrar por is_synced, pues los viejos pueden tener otro formato)
     const clientes = await db.clientes.count();
     const biometrias = await db.biometrias.count();
     const medidores = await db.medidores.count();
     const lecturas = await db.lecturas.count();
     pendingCount.value = clientes + biometrias + medidores + lecturas;
+    console.log('[DB] pendingCount:', pendingCount.value, '| clientes:', clientes, '| biometrias:', biometrias, '| medidores:', medidores, '| lecturas:', lecturas);
   } catch (e) {
-    console.error('Error contando pendientes:', e);
+    console.error('[DB] Error contando pendientes:', e);
   }
 };
 
@@ -203,6 +203,7 @@ const limpiarDatosPendientes = async () => {
 };
 
 onMounted(() => {
+  console.log('[DashboardImpulsador] Componente montado');
   contarPendientes();
 });
 
