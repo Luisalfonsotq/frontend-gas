@@ -78,12 +78,147 @@
                 <option value="INDUSTRIAL">Industrial</option>
               </select>
             </div>
-            <div>
-              <label class="block text-sm font-medium text-slate-700 mb-1">¿Tiene Financiación? *</label>
-              <select v-model="form.tiene_financiacion" required class="w-full rounded-xl border-slate-300 shadow-sm focus:border-amber-500 focus:ring-amber-500 px-4 py-2 border bg-white">
-                <option :value="true">SÍ</option>
-                <option :value="false">NO</option>
-              </select>
+          </div>
+        </div>
+
+        <hr class="border-slate-100" />
+
+        <!-- ─── Financiación de la Instalación ──────────────────────────── -->
+        <div>
+          <h2 class="text-lg font-bold text-slate-800 mb-2 flex items-center gap-2">
+            <span class="w-2 h-6 bg-teal-500 rounded-full"></span>
+            Financiación de la Instalación
+          </h2>
+          <p class="text-sm text-slate-500 mb-4">
+            Valor instalación: <strong class="text-slate-700">$1.000.000 COP</strong>
+            — Tasa de interés: <strong class="text-slate-700">1,8% mensual ({{ TASA_EA }}% E.A.)</strong>
+          </p>
+
+          <!-- Selector de modalidad -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-5">
+            <button
+              type="button"
+              @click="form.financiacion_tipo = 'CONTADO'"
+              :class="[
+                'relative flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer',
+                form.financiacion_tipo === 'CONTADO'
+                  ? 'border-emerald-500 bg-emerald-50 shadow-md ring-2 ring-emerald-200'
+                  : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm'
+              ]"
+            >
+              <svg class="w-7 h-7" :class="form.financiacion_tipo === 'CONTADO' ? 'text-emerald-600' : 'text-slate-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+              <span class="font-bold text-sm" :class="form.financiacion_tipo === 'CONTADO' ? 'text-emerald-700' : 'text-slate-700'">Contado</span>
+              <span class="text-xs text-slate-500">Pago único</span>
+              <div v-if="form.financiacion_tipo === 'CONTADO'" class="absolute top-2 right-2">
+                <svg class="w-5 h-5 text-emerald-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              @click="form.financiacion_tipo = 'CREDI_CONTADO'"
+              :class="[
+                'relative flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer',
+                form.financiacion_tipo === 'CREDI_CONTADO'
+                  ? 'border-amber-500 bg-amber-50 shadow-md ring-2 ring-amber-200'
+                  : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm'
+              ]"
+            >
+              <svg class="w-7 h-7" :class="form.financiacion_tipo === 'CREDI_CONTADO' ? 'text-amber-600' : 'text-slate-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" /></svg>
+              <span class="font-bold text-sm" :class="form.financiacion_tipo === 'CREDI_CONTADO' ? 'text-amber-700' : 'text-slate-700'">Credi-Contado</span>
+              <span class="text-xs text-slate-500">2 a 4 cuotas</span>
+              <div v-if="form.financiacion_tipo === 'CREDI_CONTADO'" class="absolute top-2 right-2">
+                <svg class="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+              </div>
+            </button>
+
+            <button
+              type="button"
+              @click="form.financiacion_tipo = 'FINANCIADO'"
+              :class="[
+                'relative flex flex-col items-center gap-2 p-4 rounded-xl border-2 transition-all duration-200 cursor-pointer',
+                form.financiacion_tipo === 'FINANCIADO'
+                  ? 'border-blue-500 bg-blue-50 shadow-md ring-2 ring-blue-200'
+                  : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-sm'
+              ]"
+            >
+              <svg class="w-7 h-7" :class="form.financiacion_tipo === 'FINANCIADO' ? 'text-blue-600' : 'text-slate-400'" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
+              <span class="font-bold text-sm" :class="form.financiacion_tipo === 'FINANCIADO' ? 'text-blue-700' : 'text-slate-700'">Financiado</span>
+              <span class="text-xs text-slate-500">1 a 3 años</span>
+              <div v-if="form.financiacion_tipo === 'FINANCIADO'" class="absolute top-2 right-2">
+                <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+              </div>
+            </button>
+          </div>
+
+          <!-- ── Detalle: Contado ───────────────────────────────────────── -->
+          <div v-if="form.financiacion_tipo === 'CONTADO'" class="animate-fade-in bg-emerald-50 border border-emerald-200 rounded-xl p-5">
+            <div class="flex items-center gap-3">
+              <div class="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center">
+                <svg class="w-5 h-5 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+              </div>
+              <div>
+                <p class="font-bold text-emerald-800 text-lg">Pago de contado</p>
+                <p class="text-sm text-emerald-700">Sin intereses — Total: <strong>$1.000.000 COP</strong></p>
+              </div>
+            </div>
+          </div>
+
+          <!-- ── Detalle: Credi-Contado ─────────────────────────────────── -->
+          <div v-if="form.financiacion_tipo === 'CREDI_CONTADO'" class="animate-fade-in space-y-3">
+            <p class="text-sm font-semibold text-amber-800">Selecciona el número de cuotas:</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <label
+                v-for="opt in opcionesCrediContado"
+                :key="opt.cuotas"
+                :class="[
+                  'relative flex flex-col p-4 rounded-xl border-2 cursor-pointer transition-all duration-200',
+                  form.financiacion_cuotas === opt.cuotas
+                    ? 'border-amber-500 bg-amber-50 shadow-md'
+                    : 'border-slate-200 bg-white hover:border-slate-300'
+                ]"
+              >
+                <input type="radio" :value="opt.cuotas" v-model="form.financiacion_cuotas" class="sr-only" />
+                <span class="text-2xl font-extrabold" :class="form.financiacion_cuotas === opt.cuotas ? 'text-amber-700' : 'text-slate-700'">{{ opt.cuotas }}</span>
+                <span class="text-xs font-medium text-slate-500 uppercase tracking-wide">cuotas de</span>
+                <span class="text-lg font-bold mt-1" :class="form.financiacion_cuotas === opt.cuotas ? 'text-amber-700' : 'text-slate-800'">${{ formatCOP(opt.valorCuota) }}</span>
+                <div class="mt-2 pt-2 border-t" :class="form.financiacion_cuotas === opt.cuotas ? 'border-amber-200' : 'border-slate-100'">
+                  <p class="text-xs text-slate-500">Interés: <strong>${{ formatCOP(opt.totalInteres) }}</strong></p>
+                  <p class="text-xs font-semibold" :class="form.financiacion_cuotas === opt.cuotas ? 'text-amber-800' : 'text-slate-700'">Total: ${{ formatCOP(opt.totalPagar) }}</p>
+                </div>
+                <div v-if="form.financiacion_cuotas === opt.cuotas" class="absolute top-2 right-2">
+                  <svg class="w-5 h-5 text-amber-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <!-- ── Detalle: Financiado ───────────────────────────────────── -->
+          <div v-if="form.financiacion_tipo === 'FINANCIADO'" class="animate-fade-in space-y-3">
+            <p class="text-sm font-semibold text-blue-800">Selecciona el plazo de financiación:</p>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+              <label
+                v-for="opt in opcionesFinanciado"
+                :key="opt.anios"
+                :class="[
+                  'relative flex flex-col p-4 rounded-xl border-2 cursor-pointer transition-all duration-200',
+                  form.financiacion_anios === opt.anios
+                    ? 'border-blue-500 bg-blue-50 shadow-md'
+                    : 'border-slate-200 bg-white hover:border-slate-300'
+                ]"
+              >
+                <input type="radio" :value="opt.anios" v-model="form.financiacion_anios" class="sr-only" />
+                <span class="text-2xl font-extrabold" :class="form.financiacion_anios === opt.anios ? 'text-blue-700' : 'text-slate-700'">{{ opt.anios }}</span>
+                <span class="text-xs font-medium text-slate-500 uppercase tracking-wide">{{ opt.anios === 1 ? 'año' : 'años' }} · {{ opt.totalMeses }} meses</span>
+                <span class="text-lg font-bold mt-1" :class="form.financiacion_anios === opt.anios ? 'text-blue-700' : 'text-slate-800'">${{ formatCOP(opt.cuotaMensual) }}/mes</span>
+                <div class="mt-2 pt-2 border-t" :class="form.financiacion_anios === opt.anios ? 'border-blue-200' : 'border-slate-100'">
+                  <p class="text-xs text-slate-500">Interés total: <strong>${{ formatCOP(opt.totalInteres) }}</strong></p>
+                  <p class="text-xs font-semibold" :class="form.financiacion_anios === opt.anios ? 'text-blue-800' : 'text-slate-700'">Total: ${{ formatCOP(opt.totalPagar) }}</p>
+                </div>
+                <div v-if="form.financiacion_anios === opt.anios" class="absolute top-2 right-2">
+                  <svg class="w-5 h-5 text-blue-600" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd" /></svg>
+                </div>
+              </label>
             </div>
           </div>
         </div>
@@ -278,7 +413,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue';
+import { ref, reactive, computed, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuth } from '@/composables/useAuth';
 import { useGeography } from '@/composables/useGeography';
@@ -291,6 +426,11 @@ const router = useRouter();
 const { user } = useAuth();
 const guardando = ref(false);
 const ubicacionCargando = ref(false);
+
+// ─── Constantes de Financiación ────────────────────────────────────────────
+const VALOR_INSTALACION = 1_000_000; // COP
+const TASA_MENSUAL = 0.018;          // 1.8% mensual
+const TASA_EA = ((Math.pow(1 + TASA_MENSUAL, 12) - 1) * 100).toFixed(1); // ≈23.9% E.A.
 
 // ─── Geografía en cascada ──────────────────────────────────────────────────
 const {
@@ -325,8 +465,42 @@ const form = reactive({
   codigo: '',
   estrato: 1,
   tipo_servicio: 'RESIDENCIAL',
-  tiene_financiacion: false,
+  // ─── Financiación ─────────────────────────────────────
+  financiacion_tipo: 'CONTADO' as 'CONTADO' | 'CREDI_CONTADO' | 'FINANCIADO',
+  financiacion_cuotas: 2 as 2 | 3 | 4,     // credi-contado
+  financiacion_anios: 1 as 1 | 2 | 3,      // financiado
 });
+
+// ─── Cálculos de Credi-Contado ─────────────────────────────────────────────
+// Interés simple: cada cuota = (capital / n) + (capital * tasa * n)
+const opcionesCrediContado = computed(() => {
+  return ([2, 3, 4] as const).map(cuotas => {
+    const capitalCuota = Math.round(VALOR_INSTALACION / cuotas);
+    const totalInteres = Math.round(VALOR_INSTALACION * TASA_MENSUAL * cuotas);
+    const totalPagar = VALOR_INSTALACION + totalInteres;
+    const valorCuota = Math.round(totalPagar / cuotas);
+    return { cuotas, capitalCuota, totalInteres, totalPagar, valorCuota };
+  });
+});
+
+// ─── Cálculos de Financiado (sistema francés — cuota fija mensual) ─────────
+const opcionesFinanciado = computed(() => {
+  return ([1, 2, 3] as const).map(anios => {
+    const totalMeses = anios * 12;
+    // Fórmula de cuota fija: C = P * [ r(1+r)^n ] / [ (1+r)^n - 1 ]
+    const r = TASA_MENSUAL;
+    const factor = Math.pow(1 + r, totalMeses);
+    const cuotaMensual = Math.round(VALOR_INSTALACION * (r * factor) / (factor - 1));
+    const totalPagar = cuotaMensual * totalMeses;
+    const totalInteres = totalPagar - VALOR_INSTALACION;
+    return { anios, totalMeses, cuotaMensual, totalPagar, totalInteres };
+  });
+});
+
+// ─── Helper para formatear moneda COP ──────────────────────────────────────
+const formatCOP = (valor: number): string => {
+  return valor.toLocaleString('es-CO');
+};
 
 // Cuando el usuario elige un barrio/vereda, actualizamos el form directamente
 const seleccionarBarrioVereda = (id: string) => {
@@ -392,6 +566,31 @@ const guardarProspecto = async () => {
     guardando.value = true;
     
     const newClienteId = uuidv4();
+
+    // Construir detalle de financiación según la modalidad elegida
+    let financiacionDetalle: Record<string, any> = {};
+    if (form.financiacion_tipo === 'CONTADO') {
+      financiacionDetalle = { total: VALOR_INSTALACION, interes: 0 };
+    } else if (form.financiacion_tipo === 'CREDI_CONTADO') {
+      const opt = opcionesCrediContado.value.find(o => o.cuotas === form.financiacion_cuotas)!;
+      financiacionDetalle = {
+        cuotas: opt.cuotas,
+        valor_cuota: opt.valorCuota,
+        total_interes: opt.totalInteres,
+        total: opt.totalPagar,
+        tasa_mensual: TASA_MENSUAL,
+      };
+    } else {
+      const opt = opcionesFinanciado.value.find(o => o.anios === form.financiacion_anios)!;
+      financiacionDetalle = {
+        anios: opt.anios,
+        meses: opt.totalMeses,
+        cuota_mensual: opt.cuotaMensual,
+        total_interes: opt.totalInteres,
+        total: opt.totalPagar,
+        tasa_mensual: TASA_MENSUAL,
+      };
+    }
     
     const prospecto = {
       id: newClienteId,
@@ -410,7 +609,8 @@ const guardarProspecto = async () => {
       codigo: form.codigo || null,
       estrato: form.estrato,
       tipo_servicio: form.tipo_servicio,
-      tiene_financiacion: form.tiene_financiacion,
+      financiacion_tipo: form.financiacion_tipo,
+      financiacion_detalle: JSON.stringify(financiacionDetalle),
       impulsador_id: user.value?.id || null,
       is_synced: 0,
       created_at_manual: new Date().toISOString()

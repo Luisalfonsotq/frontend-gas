@@ -25,7 +25,8 @@ export interface ClienteLocal extends LocalEntity {
   codigo: string | null;
   estrato: number;
   tipo_servicio: string;
-  tiene_financiacion: boolean;
+  financiacion_tipo: string;   // 'CONTADO' | 'CREDI_CONTADO' | 'FINANCIADO'
+  financiacion_detalle: string; // JSON stringified details
 }
 
 
