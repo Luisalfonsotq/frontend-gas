@@ -107,11 +107,17 @@ onMounted(() => {
 const ejecutarSincronizacion = async () => {
   if (conteos.total === 0) return;
   
-  await syncStore.syncData();
-  await refrescarConteos();
-  
-  if (syncStore.syncErrors.length === 0) {
-    alert("¡Sincronización Completada con Éxito!");
+  try {
+    await syncStore.syncData();
+    await refrescarConteos();
+    
+    if (syncStore.syncErrors.length === 0) {
+      alert("¡Sincronización Completada con Éxito!");
+    } else {
+      alert("La sincronización finalizó con errores. Revisa la sección roja abajo.");
+    }
+  } catch (error: any) {
+    alert(`Error crítico al intentar sincronizar: ${error?.message || JSON.stringify(error)}`);
   }
 };
 </script>

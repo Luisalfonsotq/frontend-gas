@@ -239,11 +239,11 @@
             
             <div class="bg-blue-50/50 rounded-xl p-4 border border-blue-100 flex flex-col sm:flex-row items-center justify-between gap-4">
               <div>
-                <p class="font-medium text-slate-800">Coordenadas GPS</p>
+                <p class="font-medium text-slate-800">Coordenadas GPS <span class="text-xs font-normal text-slate-400">(Opcional)</span></p>
                 <p class="text-sm text-slate-500" v-if="form.latitud && form.longitud">
                   Lat: {{ form.latitud.toFixed(6) }} | Lng: {{ form.longitud.toFixed(6) }}
                 </p>
-                <p class="text-sm text-amber-600 font-medium" v-else>Coordenadas no capturadas</p>
+                <p class="text-sm text-slate-400 font-medium" v-else>Sin coordenadas — se puede registrar sin GPS</p>
               </div>
               <button type="button" @click="capturarUbicacion" class="shrink-0 inline-flex items-center gap-2 px-4 py-2 bg-white border-2 border-blue-600 text-blue-700 rounded-lg hover:bg-blue-50 font-medium transition-colors">
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
@@ -538,8 +538,8 @@ const capturarUbicacion = () => {
       ubicacionCargando.value = false;
     },
     (error) => {
-      console.error(error);
-      alert("No se pudo obtener la ubicación. Por favor, revisa tus permisos de GPS.");
+      console.error("Error GPS:", error);
+      alert(`No se pudo obtener la ubicación (Error: ${error.message || error.code}). Por favor, revisa tus permisos de GPS.`);
       ubicacionCargando.value = false;
     },
     { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
@@ -547,10 +547,6 @@ const capturarUbicacion = () => {
 };
 
 const guardarProspecto = async () => {
-  if (!form.latitud || !form.longitud) {
-    alert("Es obligatorio capturar la ubicación GPS para registrar un prospecto en campo.");
-    return;
-  }
 
   if (form.is_analfabeto && (!rostroBase64.value || !huellaBase64.value)) {
     alert("Para usuarios analfabetos se debe adjuntar obligatoriamente la fotografía y huella/firma.");
@@ -648,9 +644,9 @@ const guardarProspecto = async () => {
     alert("¡Prospecto guardado exitosamente en el dispositivo!");
     router.push('/dashboard');
 
-  } catch (error) {
+  } catch (error: any) {
     console.error("Error al guardar prospecto Localmente:", error);
-    alert("Ocurrió un error guardando el prospecto.");
+    alert(`Ocurrió un error guardando el prospecto: ${error?.message || JSON.stringify(error)}`);
   } finally {
     guardando.value = false;
   }

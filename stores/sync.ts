@@ -36,13 +36,16 @@ export const useSyncStore = defineStore('sync', {
         // El backend usa class-validator con forbidNonWhitelisted: true,
         // así que cualquier prop extra causa un error 400.
         const cleanClientes = pendingClientes.map((c) => {
-          const { is_synced, estado, ...rest } = c;
-          // Asegurar que los campos numéricos opcionales no sean null
-          // y que los UUIDs obligatorios estén presentes
+          // Extraemos propiedades que el backend no espera y los legacy
+          const { is_synced, estado, tiene_financiacion, ...rest } = c as any;
           return {
             ...rest,
-            latitud: rest.latitud ?? 0,
-            longitud: rest.longitud ?? 0,
+            // Aseguramos de que el tipo sea string (fallback 'CONTADO' si es undefined/null en registros viejos)
+            financiacion_tipo: typeof rest.financiacion_tipo === 'string' ? rest.financiacion_tipo : 'CONTADO',
+            // Aseguramos que latitud/longitud sean números, o null (y no enviarlos o enviarlos como están para el backend)
+            // Se envía null si el GPS no fue capturado
+            latitud: rest.latitud ?? null,
+            longitud: rest.longitud ?? null,
           };
         });
         const cleanBiometrias = pendingBiometrias.map(({ is_synced, ...rest }) => rest);
