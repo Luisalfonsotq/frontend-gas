@@ -112,8 +112,9 @@ export const roleSidebarConfig = {
   
   // ─── ATENCIÓN ──────────────────────────────────────────────────────────────
   ATENCIÓN: [
-    { name: 'Dashboard',     icon: 'i-heroicons-home',               path: '/dashboard',      key: 'dashboard' },
-    { name: 'Atención al Cliente', icon: 'i-heroicons-computer-desktop', path: '/atencion', key: 'atencion' },
+    { name: 'Dashboard',           icon: 'i-heroicons-home',               path: '/dashboard',  key: 'dashboard' },
+    { name: 'Atención al Cliente', icon: 'i-heroicons-computer-desktop',   path: '/atencion',   key: 'atencion' },
+    { name: 'Directorio Clientes', icon: 'i-heroicons-user-group',         path: '/clientes',   key: 'clientes-list' },
   ],
 };
 
