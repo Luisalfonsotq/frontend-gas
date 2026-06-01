@@ -19,6 +19,9 @@ export interface ClienteLocal extends LocalEntity {
   latitud: number | null;
   longitud: number | null;
   is_analfabeto: boolean;
+  desea_servicio: boolean;
+  razon_rechazo: string | null;
+  incluye_estufa: string; // 'NINGUNA' | 'DOS_PUESTOS' | 'CUATRO_PUESTOS'
   estado: string; // "PROSPECTO" | "CLIENTE" | "INACTIVO"
   barrio_vereda_id: string | null;
   impulsador_id: string | null;

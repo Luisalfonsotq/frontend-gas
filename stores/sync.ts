@@ -36,8 +36,9 @@ export const useSyncStore = defineStore('sync', {
         // El backend usa class-validator con forbidNonWhitelisted: true,
         // así que cualquier prop extra causa un error 400.
         const cleanClientes = pendingClientes.map((c) => {
-          // Extraemos propiedades que el backend no espera y los legacy
-          const { is_synced, estado, tiene_financiacion, ...rest } = c as any;
+          // Extraemos propiedades que el backend no espera y los legacy (como local_id si no es necesario, o lo dejamos)
+          // Mantenemos 'estado' en el payload ya que ahora CreateCustomerDto lo soporta y lo valida.
+          const { is_synced, tiene_financiacion, ...rest } = c as any;
           return {
             ...rest,
             // Aseguramos de que el tipo sea string (fallback 'CONTADO' si es undefined/null en registros viejos)
@@ -46,6 +47,10 @@ export const useSyncStore = defineStore('sync', {
             // Se envía null si el GPS no fue capturado
             latitud: rest.latitud ?? null,
             longitud: rest.longitud ?? null,
+            // Aseguramos que los nuevos campos del censo tengan fallbacks si vienen de datos viejos
+            desea_servicio: rest.desea_servicio !== false, // default true
+            razon_rechazo: rest.razon_rechazo ?? null,
+            incluye_estufa: rest.incluye_estufa ?? 'NINGUNA',
           };
         });
         const cleanBiometrias = pendingBiometrias.map(({ is_synced, ...rest }) => rest);
